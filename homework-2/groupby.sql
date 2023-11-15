@@ -18,3 +18,37 @@
 
 
 -- 7. страны, в которых зарегистрированы и заказчики (customers) и поставщики (suppliers), но не зарегистрированы работники (employees).
+
+SELECT ship_city, ship_country FROM orders
+WHERE ship_city LIKE '%burg'
+GROUP BY ship_city, ship_country
+
+SELECT order_id, customer_id, freight, ship_country FROM orders
+WHERE ship_country LIKE 'P%'
+ORDER BY freight DESC
+LIMIT 10
+
+SELECT first_name, last_name, home_phone FROM employees
+WHERE region IS NULL
+
+SELECT country, COUNT(*) FROM suppliers
+GROUP BY country
+ORDER BY COUNT(*) DESC
+
+SELECT ship_country, SUM(freight) FROM orders
+WHERE ship_region IS NOT NULL
+GROUP BY ship_country
+HAVING SUM(freight) > 2750
+ORDER BY SUM(freight) DESC
+
+SELECT country FROM customers
+INTERSECT
+SELECT country FROM suppliers
+INTERSECT
+SELECT country FROM employees
+
+SELECT country FROM customers
+INTERSECT
+SELECT country FROM suppliers
+EXCEPT
+SELECT country FROM employees
